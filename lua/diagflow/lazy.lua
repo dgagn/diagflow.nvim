@@ -29,11 +29,6 @@ function M.init(config)
 
     local ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
 
-    vim.api.nvim_create_user_command("DiagflowToggle",
-        function()
-            M.toggle()
-        end, { bang = true, nargs = 0 })
-
     local function render_diagnostics()
         if not M.enabled then
             return
