@@ -51,7 +51,7 @@ require('diagflow').setup({
         hint = "DiagnosticFloatingHint",
     },
     gap_size = 1,
-    scope = 'cursor', -- 'scope', 'line'
+    scope = 'cursor', -- 'cursor', 'line'
 })
 ```
 
