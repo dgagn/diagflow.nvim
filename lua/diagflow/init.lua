@@ -3,10 +3,10 @@ local M = {}
 M.config = {
     max_width = 60,
     severity_colors = {
-        error = "DiagnosticDefaultErrorMsg",
-        warn = "DiagnosticDefaultWarningMsg",
-        info = "DiagnosticDefaultInfoMsg",
-        hint = "DiagnosticDefaultHintMsg",
+        error = "DiagnosticFloatingError",
+        warn = "DiagnosticFloatingWarning",
+        info = "DiagnosticFloatingInfo",
+        hint = "DiagnosticFloatingHint",
     }
 }
 

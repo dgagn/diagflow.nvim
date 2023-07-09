@@ -17,10 +17,10 @@ use {'dgagn/diagflow.nvim'}
     opts = {
         max_width = 60,  -- The maximum width of the diagnostic messages
         severity_colors = {  -- The highlight groups to use for each diagnostic severity level
-            error = "DiagnosticDefaultErrorMsg",
-            warning = "DiagnosticDefaultWarningMsg",
-            info = "DiagnosticDefaultInfoMsg",
-            hint = "DiagnosticDefaultHintMsg",
+            error = "DiagnosticFloatingError",
+            warning = "DiagnosticFloatingWarning",
+            info = "DiagnosticFloatingInfo",
+            hint = "DiagnosticFloatingHint",
         }
     }
 }
@@ -39,10 +39,10 @@ require('diagflow').setup()
 require('diagflow').setup({
     max_width = 60,  -- The maximum width of the diagnostic messages
     severity_colors = {  -- The highlight groups to use for each diagnostic severity level
-        error = "DiagnosticDefaultErrorMsg",
-        warning = "DiagnosticDefaultWarningMsg",
-        info = "DiagnosticDefaultInfoMsg",
-        hint = "DiagnosticDefaultHintMsg",
+        error = "DiagnosticFloatingError",
+        warning = "DiagnosticFloatingWarning",
+        info = "DiagnosticFloatingInfo",
+        hint = "DiagnosticFloatingHint",
     }
 })
 ```
@@ -52,6 +52,6 @@ require('diagflow').setup({
 1. How do I change the colors of the virtual text?
 
 You can setup your custom colors by changing the highlight group in the config. For example, in this
-default config, the `:hi HintMsg` is the color of the hints. You can change the hint color to blue by 
-`:hi HintMsg guifg=blue`
+default config, the `:hi Hint` is the color of the hints. You can change the hint color to blue by 
+`:hi Hint guifg=blue`
 
