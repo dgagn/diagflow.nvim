@@ -18,10 +18,13 @@ local function wrap_text(text, max_width)
     return lines
 end
 
+local group = nil
+local ns = nil
+
 function M.init(config)
     vim.diagnostic.config({ virtual_text = false })
 
-    local ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
+    ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
 
     local function render_diagnostics()
         if not config.enable then
@@ -83,13 +86,25 @@ function M.init(config)
         end
     end
 
-    local group = vim.api.nvim_create_augroup('RenderDiagnostics', { clear = true })
+    group = vim.api.nvim_create_augroup('RenderDiagnostics', { clear = true })
     vim.api.nvim_create_autocmd('CursorMoved', {
         callback = render_diagnostics,
         pattern = "*",
         group = group
     })
 
+end
+
+function M.clear()
+    vim.diagnostic.config({ virtual_text = true })
+    if group ~= nil then
+        vim.api.nvim_remove_autocmd(group, 'CursorMoved')
+        group = nil
+    end
+    if ns ~= nil then
+        vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
+        ns = nil
+    end
 end
 
 return M

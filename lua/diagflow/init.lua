@@ -1,5 +1,7 @@
 local M = {}
 
+local diagflowlazy = require('diagflow.lazy')
+
 M.config = {
     max_width = 60,
     severity_colors = {
@@ -16,11 +18,16 @@ M.config = {
 
 function M.setup(user_config)
     M.config = vim.tbl_deep_extend('force', M.config, user_config or {})
-    require('diagflow.lazy').init(M.config)
+    diagflowlazy.init(M.config)
 end
 
 function M.toggle()
     M.config.enable = not M.config.enable
+    if M.config.enable then
+        diagflowlazy.init(M.config)
+    else
+        diagflowlazy.clear()
+    end
 end
 
 return M
