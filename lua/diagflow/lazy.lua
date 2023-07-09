@@ -20,7 +20,7 @@ end
 
 function M.init(config)
     local maxwidth = config.maxwidth
-    local severity_to_color = config.severity_to_color
+    local severity_to_color = config.severity_colors
 
     vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
         vim.lsp.diagnostic.on_publish_diagnostics, {
