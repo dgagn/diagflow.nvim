@@ -43,7 +43,8 @@ function M.init(config)
 
         local current_pos_diags = {}
         for _, diag in ipairs(diags) do
-            if diag.lnum == line and diag.col <= col and (diag.end_col or diag.col) >= col then
+            if config.scope == 'line' and diag.lnum == line or
+                config.scope == 'cursor' and diag.lnum == line and diag.col <= col and (diag.end_col or diag.col) >= col then
                 table.insert(current_pos_diags, diag)
             end
         end
@@ -87,3 +88,4 @@ function M.init(config)
 end
 
 return M
+

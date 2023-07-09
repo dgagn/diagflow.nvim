@@ -9,6 +9,7 @@ M.config = {
         hint = "DiagnosticFloatingHint",
     },
     gap_size = 1,
+    scope = 'cursor', -- 'cursor', 'line'
 }
 
 function M.setup(user_config)
