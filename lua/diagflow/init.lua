@@ -11,11 +11,16 @@ M.config = {
     gap_size = 1,
     scope = 'cursor', -- 'cursor', 'line'
     top_padding = 0,
+    enable = true,
 }
 
 function M.setup(user_config)
     M.config = vim.tbl_deep_extend('force', M.config, user_config or {})
     require('diagflow.lazy').init(M.config)
+end
+
+function M.toggle()
+    M.config.enable = not M.config.enable
 end
 
 return M

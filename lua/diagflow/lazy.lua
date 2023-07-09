@@ -1,7 +1,5 @@
 local M = {}
 
-M.enabled = true
-
 local function wrap_text(text, max_width)
     local lines = {}
     local line = ""
@@ -20,17 +18,13 @@ local function wrap_text(text, max_width)
     return lines
 end
 
-function M.toggle()
-    M.enabled = not M.enabled
-end
-
 function M.init(config)
     vim.diagnostic.config({ virtual_text = false })
 
     local ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
 
     local function render_diagnostics()
-        if not M.enabled then
+        if not config.enable then
             return
         end
 
