@@ -70,7 +70,7 @@ function M.init(config)
             local message_lines = wrap_text(diag.message, config.max_width)
 
             for _, message in ipairs(message_lines) do
-                vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.top_padding, 0, {
+                vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.padding_top, 0, {
                     virt_text = { { message, hl_group } },
                     virt_text_pos = "right_align",
                     virt_text_hide = true,
@@ -96,7 +96,6 @@ function M.init(config)
 end
 
 function M.clear()
-    vim.diagnostic.config({ virtual_text = true })
     if group ~= nil then
         vim.api.nvim_remove_autocmd(group, 'CursorMoved')
         group = nil

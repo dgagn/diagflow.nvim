@@ -3,6 +3,7 @@ local M = {}
 local diagflowlazy = require('diagflow.lazy')
 
 M.config = {
+    enable = true,
     max_width = 60,
     severity_colors = {
         error = "DiagnosticFloatingError",
@@ -12,8 +13,7 @@ M.config = {
     },
     gap_size = 1,
     scope = 'cursor', -- 'cursor', 'line'
-    top_padding = 0,
-    enable = true,
+    padding_top = 0,
 }
 
 function M.setup(user_config)
