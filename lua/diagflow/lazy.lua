@@ -58,7 +58,7 @@ function M.init(config)
         -- Render current_pos_diags
         for _, diag in ipairs(current_pos_diags) do
             local hl_group = config.severity_colors[diag.severity]
-            local message_lines = wrap_text(diag.message, config.maxwidth)
+            local message_lines = wrap_text(diag.message, config.max_width)
 
             for i, message in ipairs(message_lines) do
                 vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + i - 1, 0, {

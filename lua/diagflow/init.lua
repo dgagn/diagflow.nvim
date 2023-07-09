@@ -1,6 +1,6 @@
 local M = {}
 
-local config = {
+M.config = {
     max_width = 60,
     severity_colors = {
         [vim.diagnostic.severity.ERROR] = "ErrorMsg",
@@ -11,8 +11,8 @@ local config = {
 }
 
 function M.setup(user_config)
-    config = vim.tbl_extend('force', config, user_config or {})
-    require('diagflow.lazy').init(config)
+    M.config = vim.tbl_deep_extend('force', M.config, user_config or {})
+    require('diagflow.lazy').init(M.config)
 end
 
 return M
