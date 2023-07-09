@@ -60,7 +60,8 @@ require('diagflow').setup({
         info = "DiagnosticFloatingInfo",
         hint = "DiagnosticFloatingHint",
     },
-    gap_size = 1
+    gap_size = 1,
+    scope = 'cursor', -- 'scope', 'line'
 })
 ```
 
