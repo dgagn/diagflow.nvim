@@ -96,14 +96,8 @@ function M.init(config)
 end
 
 function M.clear()
-    if group ~= nil then
-        vim.api.nvim_remove_autocmd(group, 'CursorMoved')
-        group = nil
-    end
-    if ns ~= nil then
-        vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
-        ns = nil
-    end
+    pcall(function() vim.api.nvim_del_augroup_by_name('RenderDiagnostics') end)
+    pcall(function() vim.api.nvim_buf_clear_namespace(0, ns, 0, -1) end)
 end
 
 return M
