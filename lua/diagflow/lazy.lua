@@ -98,8 +98,7 @@ function M.init(config)
         group = group
     })
 
-
-    vim.api.nvim_command("command! DiagflowToggle lua require('diagflow').toggle()")
+    vim.api.nvim_create_user_command("DiagflowToggle", "lua require('diagflow.lazy').toggle()")
 end
 
 return M
