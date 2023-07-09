@@ -19,9 +19,6 @@ local function wrap_text(text, max_width)
 end
 
 function M.init(config)
-    local maxwidth = config.maxwidth
-    local severity_to_color = config.severity_colors
-
     vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
         vim.lsp.diagnostic.on_publish_diagnostics, {
             virtual_text = false,
@@ -60,8 +57,8 @@ function M.init(config)
 
         -- Render current_pos_diags
         for _, diag in ipairs(current_pos_diags) do
-            local hl_group = severity_to_color[diag.severity]
-            local message_lines = wrap_text(diag.message, maxwidth)
+            local hl_group = config.severity_colors[diag.severity]
+            local message_lines = wrap_text(diag.message, config.maxwidth)
 
             for i, message in ipairs(message_lines) do
                 vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + i - 1, 0, {
