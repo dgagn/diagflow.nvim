@@ -1,6 +1,6 @@
 local M = {}
 
-local enabled = true
+M.enabled = true
 
 local function wrap_text(text, max_width)
     local lines = {}
@@ -21,7 +21,7 @@ local function wrap_text(text, max_width)
 end
 
 function M.toggle()
-    enabled = not enabled
+    M.enabled = not M.enabled
 end
 
 function M.init(config)
