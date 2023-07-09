@@ -36,7 +36,8 @@ use {'dgagn/diagflow.nvim'}
             info = "DiagnosticFloatingInfo",
             hint = "DiagnosticFloatingHint",
         },
-        gap_size = 1
+        gap_size = 1,
+        scope = 'cursor', -- 'scope', 'line'
     }
 }
 ```
