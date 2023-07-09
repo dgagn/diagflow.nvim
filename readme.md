@@ -1,6 +1,6 @@
 # diagflow.nvim
 
-**diagflow.nvim** is a Neovim plugin that displays LSP diagnostics in a floating window at the top right of your screen. This plugin only displays diagnostics for the line under your cursor, providing a clean and distraction-free coding environment.
+**diagflow.nvim** is a Neovim plugin that displays LSP diagnostics in a virtual text at the top right of your screen. This plugin only displays diagnostics for the line under your cursor, providing a clean and distraction-free coding environment.
 It is similar to how helix does the diagnostics management.
 
 ## Example
