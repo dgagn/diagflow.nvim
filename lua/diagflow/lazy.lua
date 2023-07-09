@@ -18,12 +18,19 @@ local function wrap_text(text, max_width)
     return lines
 end
 
+local group = nil
+local ns = nil
+
 function M.init(config)
     vim.diagnostic.config({ virtual_text = false })
 
-    local ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
+    ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
 
     local function render_diagnostics()
+        if not config.enable then
+            return
+        end
+
         local bufnr = 0 -- current buffer
 
         -- Clear existing extmarks
@@ -63,7 +70,7 @@ function M.init(config)
             local message_lines = wrap_text(diag.message, config.max_width)
 
             for _, message in ipairs(message_lines) do
-                vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset, 0, {
+                vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.padding_top, 0, {
                     virt_text = { { message, hl_group } },
                     virt_text_pos = "right_align",
                     virt_text_hide = true,
@@ -79,13 +86,18 @@ function M.init(config)
         end
     end
 
-    local group = vim.api.nvim_create_augroup('RenderDiagnostics', { clear = true })
+    group = vim.api.nvim_create_augroup('RenderDiagnostics', { clear = true })
     vim.api.nvim_create_autocmd('CursorMoved', {
         callback = render_diagnostics,
         pattern = "*",
         group = group
     })
+
+end
+
+function M.clear()
+    pcall(function() vim.api.nvim_del_augroup_by_name('RenderDiagnostics') end)
+    pcall(function() vim.api.nvim_buf_clear_namespace(0, ns, 0, -1) end)
 end
 
 return M
-
