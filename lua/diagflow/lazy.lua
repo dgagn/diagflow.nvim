@@ -55,6 +55,13 @@ function M.init(config)
             end
         end
 
+        local all_messages = {}
+        for _, diag in ipairs(current_pos_diags) do
+            table.insert(all_messages, diag.message)
+        end
+        local all_messages_str = table.concat(all_messages, "\n")
+
+
         -- Render current_pos_diags
         for _, diag in ipairs(current_pos_diags) do
             local severity = {
@@ -64,7 +71,7 @@ function M.init(config)
                 [vim.diagnostic.severity.HINT] = config.severity_colors.hint,
             }
             local hl_group = severity[diag.severity]
-            local message_lines = wrap_text(diag.message, config.max_width)
+            local message_lines = wrap_text(all_messages_str, config.max_width)
 
             for i, message in ipairs(message_lines) do
                 vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + i - 1, 0, {
