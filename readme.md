@@ -11,11 +11,11 @@ It is similar to how helix does the diagnostics management.
 
 2. Here is when an error is under the cursor
 
-![cursor](./images/error.png)
+![error](./images/error.png)
 
-3. Here is when an warning is under the cursor
+3. Here is when a hint is under the cursor
 
-![cursor](./images/warning.png)
+![hint](./images/hint.png)
 
 ## Installation
 
