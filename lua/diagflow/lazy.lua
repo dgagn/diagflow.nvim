@@ -1,6 +1,6 @@
 local M = {}
 
-M.enabled = true
+local enabled = true
 
 local function wrap_text(text, max_width)
     local lines = {}
@@ -21,13 +21,15 @@ local function wrap_text(text, max_width)
 end
 
 function M.toggle()
-    M.enabled = not M.enabled
+    enabled = not enabled
 end
+
 
 function M.init(config)
     vim.diagnostic.config({ virtual_text = false })
 
     local ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
+
 
     local function render_diagnostics()
         if not M.enabled then
@@ -95,6 +97,9 @@ function M.init(config)
         pattern = "*",
         group = group
     })
+
+
+    vim.api.nvim_command("command! DiagflowToggle lua require('diagflow').toggle()")
 end
 
 return M
