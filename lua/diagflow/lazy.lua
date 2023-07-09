@@ -1,5 +1,7 @@
 local M = {}
 
+M.enabled = true
+
 local function wrap_text(text, max_width)
     local lines = {}
     local line = ""
@@ -18,12 +20,20 @@ local function wrap_text(text, max_width)
     return lines
 end
 
+function M.toggle()
+    M.enabled = not M.enabled
+end
+
 function M.init(config)
     vim.diagnostic.config({ virtual_text = false })
 
     local ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
 
     local function render_diagnostics()
+        if not M.enabled then
+            return
+        end
+
         local bufnr = 0 -- current buffer
 
         -- Clear existing extmarks
@@ -63,7 +73,7 @@ function M.init(config)
             local message_lines = wrap_text(diag.message, config.max_width)
 
             for _, message in ipairs(message_lines) do
-                vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset, 0, {
+                vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.top_padding, 0, {
                     virt_text = { { message, hl_group } },
                     virt_text_pos = "right_align",
                     virt_text_hide = true,
@@ -88,4 +98,3 @@ function M.init(config)
 end
 
 return M
-

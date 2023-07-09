@@ -10,6 +10,7 @@ M.config = {
     },
     gap_size = 1,
     scope = 'cursor', -- 'cursor', 'line'
+    top_padding = 0,
 }
 
 function M.setup(user_config)
