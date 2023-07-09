@@ -35,7 +35,8 @@ use {'dgagn/diagflow.nvim'}
             warning = "DiagnosticFloatingWarning",
             info = "DiagnosticFloatingInfo",
             hint = "DiagnosticFloatingHint",
-        }
+        },
+        gap_size = 1
     }
 }
 ```
@@ -57,7 +58,8 @@ require('diagflow').setup({
         warning = "DiagnosticFloatingWarning",
         info = "DiagnosticFloatingInfo",
         hint = "DiagnosticFloatingHint",
-    }
+    },
+    gap_size = 1
 })
 ```
 
