@@ -19,14 +19,7 @@ local function wrap_text(text, max_width)
 end
 
 function M.init(config)
-    vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-        vim.lsp.diagnostic.on_publish_diagnostics, {
-            virtual_text = false,
-            signs = true,
-            underline = true,
-            update_in_insert = true,
-        }
-    )
+    vim.diagnostic.config({ virtual_text = false })
 
     local ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
 
@@ -55,12 +48,6 @@ function M.init(config)
             end
         end
 
-        local all_messages = {}
-        for _, diag in ipairs(current_pos_diags) do
-            table.insert(all_messages, diag.message)
-        end
-        local all_messages_str = table.concat(all_messages, "\n")
-
         local severity = {
             [vim.diagnostic.severity.ERROR] = config.severity_colors.error,
             [vim.diagnostic.severity.WARN] = config.severity_colors.warn,
@@ -68,15 +55,26 @@ function M.init(config)
             [vim.diagnostic.severity.HINT] = config.severity_colors.hint,
         }
 
-        local hl_group = severity[current_pos_diags[1].severity]
-        local message_lines = wrap_text(all_messages_str, config.max_width)
-        for i, message in ipairs(message_lines) do
-            vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + i - 1, 0, {
-                virt_text = { { message, hl_group } },
-                virt_text_pos = "right_align",
-                virt_text_hide = true,
-                strict = false
-            })
+        local line_offset = 0
+        -- Render current_pos_diags
+        for _, diag in ipairs(current_pos_diags) do
+            local hl_group = severity[diag.severity]
+            local message_lines = wrap_text(diag.message, config.max_width)
+
+            for _, message in ipairs(message_lines) do
+                vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset, 0, {
+                    virt_text = { { message, hl_group } },
+                    virt_text_pos = "right_align",
+                    virt_text_hide = true,
+                    strict = false
+                })
+                line_offset = line_offset + 1
+            end
+
+            -- Add a gap only after each diagnostic, not after each line
+            if config.gap_size > 0 then
+                line_offset = line_offset + config.gap_size - 1
+            end
         end
     end
 

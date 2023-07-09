@@ -7,7 +7,8 @@ M.config = {
         warn = "DiagnosticFloatingWarning",
         info = "DiagnosticFloatingInfo",
         hint = "DiagnosticFloatingHint",
-    }
+    },
+    gap_size = 1,
 }
 
 function M.setup(user_config)
@@ -16,3 +17,4 @@ function M.setup(user_config)
 end
 
 return M
+
