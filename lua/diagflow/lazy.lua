@@ -61,26 +61,29 @@ function M.init(config)
         end
         local all_messages_str = table.concat(all_messages, "\n")
 
+        local severity = {
+            [vim.diagnostic.severity.ERROR] = config.severity_colors.error,
+            [vim.diagnostic.severity.WARN] = config.severity_colors.warn,
+            [vim.diagnostic.severity.INFO] = config.severity_colors.info,
+            [vim.diagnostic.severity.HINT] = config.severity_colors.hint,
+        }
 
         -- Render current_pos_diags
         for _, diag in ipairs(current_pos_diags) do
-            local severity = {
-                [vim.diagnostic.severity.ERROR] = config.severity_colors.error,
-                [vim.diagnostic.severity.WARN] = config.severity_colors.warn,
-                [vim.diagnostic.severity.INFO] = config.severity_colors.info,
-                [vim.diagnostic.severity.HINT] = config.severity_colors.hint,
-            }
             local hl_group = severity[diag.severity]
-            local message_lines = wrap_text(all_messages_str, config.max_width)
+            local message_lines = wrap_text(diag.message, config.max_width)
 
-            for i, message in ipairs(message_lines) do
-                vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + i - 1, 0, {
-                    virt_text = { { message, hl_group } },
-                    virt_text_pos = "right_align",
-                    virt_text_hide = true,
-                    strict = false
-                })
+            local virt_text = {}
+            for _, msg in ipairs(message_lines) do
+                table.insert(virt_text, { msg, hl_group })
             end
+
+            vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + i - 1, 0, {
+                virt_text = virt_text,
+                virt_text_pos = "right_align",
+                virt_text_hide = true,
+                strict = false
+            })
         end
     end
 
