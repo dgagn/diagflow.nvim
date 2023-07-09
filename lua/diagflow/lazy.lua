@@ -68,18 +68,11 @@ function M.init(config)
             [vim.diagnostic.severity.HINT] = config.severity_colors.hint,
         }
 
-        -- Render current_pos_diags
-        for _, diag in ipairs(current_pos_diags) do
-            local hl_group = severity[diag.severity]
-            local message_lines = wrap_text(diag.message, config.max_width)
-
-            local virt_text = {}
-            for _, msg in ipairs(message_lines) do
-                table.insert(virt_text, { msg, hl_group })
-            end
-
+        local hl_group = severity[current_pos_diags[1].severity]
+        local message_lines = wrap_text(all_messages_str, config.max_width)
+        for i, message in ipairs(message_lines) do
             vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + i - 1, 0, {
-                virt_text = virt_text,
+                virt_text = { { message, hl_group } },
                 virt_text_pos = "right_align",
                 virt_text_hide = true,
                 strict = false
