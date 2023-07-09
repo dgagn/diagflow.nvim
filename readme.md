@@ -17,10 +17,10 @@ use {'dgagn/diagflow.nvim'}
     opts = {
         max_width = 60,  -- The maximum width of the diagnostic messages
         severity_colors = {  -- The highlight groups to use for each diagnostic severity level
-            [vim.diagnostic.severity.ERROR] = "ErrorMsg",
-            [vim.diagnostic.severity.WARN] = "WarningMsg",
-            [vim.diagnostic.severity.INFO] = "InfoMsg",
-            [vim.diagnostic.severity.HINT] = "HintMsg",
+            error = "DiagnosticDefaultErrorMsg",
+            warning = "DiagnosticDefaultWarningMsg",
+            info = "DiagnosticDefaultInfoMsg",
+            hint = "DiagnosticDefaultHintMsg",
         }
     }
 }
@@ -39,10 +39,10 @@ require('diagflow').setup()
 require('diagflow').setup({
     max_width = 60,  -- The maximum width of the diagnostic messages
     severity_colors = {  -- The highlight groups to use for each diagnostic severity level
-        [vim.diagnostic.severity.ERROR] = "ErrorMsg",
-        [vim.diagnostic.severity.WARN] = "WarningMsg",
-        [vim.diagnostic.severity.INFO] = "InfoMsg",
-        [vim.diagnostic.severity.HINT] = "HintMsg",
+        error = "DiagnosticDefaultErrorMsg",
+        warning = "DiagnosticDefaultWarningMsg",
+        info = "DiagnosticDefaultInfoMsg",
+        hint = "DiagnosticDefaultHintMsg",
     }
 })
 ```

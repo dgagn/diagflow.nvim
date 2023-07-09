@@ -3,10 +3,10 @@ local M = {}
 M.config = {
     max_width = 60,
     severity_colors = {
-        [vim.diagnostic.severity.ERROR] = "ErrorMsg",
-        [vim.diagnostic.severity.WARN] = "WarningMsg",
-        [vim.diagnostic.severity.INFO] = "InfoMsg",
-        [vim.diagnostic.severity.HINT] = "HintMsg",
+        error = "DiagnosticDefaultErrorMsg",
+        warn = "DiagnosticDefaultWarningMsg",
+        info = "DiagnosticDefaultInfoMsg",
+        hint = "DiagnosticDefaultHintMsg",
     }
 }
 

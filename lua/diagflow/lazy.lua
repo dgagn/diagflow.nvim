@@ -57,7 +57,13 @@ function M.init(config)
 
         -- Render current_pos_diags
         for _, diag in ipairs(current_pos_diags) do
-            local hl_group = config.severity_colors[diag.severity]
+            local severity = {
+                [vim.diagnostic.severity.ERROR] = config.severity_colors.error,
+                [vim.diagnostic.severity.WARN] = config.severity_colors.warn,
+                [vim.diagnostic.severity.INFO] = config.severity_colors.info,
+                [vim.diagnostic.severity.HINT] = config.severity_colors.hint,
+            }
+            local hl_group = severity[diag.severity]
             local message_lines = wrap_text(diag.message, config.max_width)
 
             for i, message in ipairs(message_lines) do
