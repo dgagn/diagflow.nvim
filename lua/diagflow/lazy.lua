@@ -21,19 +21,37 @@ end
 local group = nil
 local ns = nil
 
-local function shallow_copy(t)
-  local t2 = {}
-  for k,v in pairs(t) do
-    t2[k] = v
-  end
-  return t2
+local error = function (message)
+    vim.notify(message, vim.log.levels.ERROR)
 end
 
 M.cached = {}
 
 local function update_cached_diagnostic()
-    M.cached = vim.diagnostic.get(0)
-    table.sort(M.cached, function(a, b) return a.severity < b.severity end)
+    local ok, diagnostics = pcall(vim.diagnostic.get, 0)
+
+    if not ok then
+        error('Failed to get diagnostic: ' .. diagnostics)
+        return
+    end
+
+    if type(diagnostics) ~= "table" then
+        error('Diagnostic is not a table ' .. diagnostics)
+        return
+    end
+
+    ok, diagnostics = pcall(function()
+        table.sort(diagnostics, function(a, b) return a.severity < b.severity end)
+        return diagnostics
+    end)
+
+    if not ok then
+        error('Failed to sort diagnostics ' .. diagnostics)
+        return
+    end
+
+
+    M.cached = diagnostics
 end
 
 function M.init(config)
