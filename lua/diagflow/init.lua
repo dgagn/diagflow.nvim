@@ -21,7 +21,7 @@ local error = function (message)
 end
 
 function M.setup(user_config)
-    M.config = vim.tbl_deep_extend('force', M.config, user_config or {})
+    M.config = vim.tbl_deep_extend('force', {}, M.config, user_config or {})
 
     -- Validate configuration
     local config = M.config
