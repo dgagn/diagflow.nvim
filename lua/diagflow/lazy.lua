@@ -21,7 +21,7 @@ end
 local group = nil
 local ns = nil
 
-local error = function (message)
+local error = function(message)
     vim.notify(message, vim.log.levels.ERROR)
 end
 
@@ -107,14 +107,27 @@ function M.init(config)
                 end
             end
 
+            local is_right = config.text_align == 'right'
+
             for _, message in ipairs(message_lines) do
-                local align = config.text_align == 'left' and max_width or #message
-                vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.padding_top, 0, {
-                    virt_text_win_col = win_width - align,
-                    virt_text = { { message, hl_group } },
-                    virt_text_hide = true,
-                    strict = false
-                })
+                if is_right then
+                    -- fixes the issue of neotree and nvim-tree weird not on screen when opened
+                    vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.padding_top, 0, {
+                        virt_text_pos = 'right_align',
+                        virt_text = { { message, hl_group } },
+                        virt_text_hide = true,
+                        strict = false
+                    })
+                else
+                    local align = config.text_align == 'left' and max_width or #message
+                    vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.padding_top, 0, {
+                        virt_text_win_col = win_width - align,
+                        virt_text = { { message, hl_group } },
+                        virt_text_hide = true,
+                        strict = false
+                    })
+                end
+
                 line_offset = line_offset + 1
             end
 
