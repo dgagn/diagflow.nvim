@@ -53,7 +53,9 @@ require('diagflow').setup({
     },
     gap_size = 1,
     scope = 'cursor', -- 'cursor', 'line'
-    padding_top = 0
+    padding_top = 0,
+    padding_right = 0,
+    text_align = 'right', -- 'left', 'right'
 })
 ```
 
