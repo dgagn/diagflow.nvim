@@ -94,15 +94,24 @@ function M.init(config)
         }
 
         local line_offset = 0
+        local win_width = vim.api.nvim_win_get_width(0) - vim.fn.getwininfo()[1].textoff - config.padding_right
         -- Render current_pos_diags
         for _, diag in ipairs(current_pos_diags) do
             local hl_group = severity[diag.severity]
             local message_lines = wrap_text(diag.message, config.max_width)
 
+            local max_width = 0
+            if config.text_align == 'left' then
+                for _, message in ipairs(message_lines) do
+                    max_width = math.max(max_width, #message)
+                end
+            end
+
             for _, message in ipairs(message_lines) do
+                local align = config.text_align == 'left' and max_width or #message
                 vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.padding_top, 0, {
+                    virt_text_win_col = win_width - align,
                     virt_text = { { message, hl_group } },
-                    virt_text_pos = "right_align",
                     virt_text_hide = true,
                     strict = false
                 })
