@@ -14,6 +14,8 @@ M.config = {
     gap_size = 1,
     scope = 'cursor', -- 'cursor', 'line'
     padding_top = 0,
+    padding_right = 0,
+    text_align = 'right', -- 'left', 'right'
 }
 
 local error = function (message)
@@ -47,6 +49,14 @@ function M.setup(user_config)
     end
     if type(config.padding_top) ~= 'number' then
         error('diagflow: Invalid type for "padding_top" config. Expected number, got ' .. type(config.padding_top))
+        return
+    end
+    if type(config.padding_right) ~= 'number' then
+        error('diagflow: Invalid type for "padding_right" config. Expected number, got ' .. type(config.padding_top))
+        return
+    end
+    if type(config.text_align) ~= 'string' or (config.text_align ~= 'left' and config.text_align ~= 'right') then
+        error('diagflow: Invalid value for "text_align" config. Expected "left" or "right", got ' .. config.text_align)
         return
     end
 
