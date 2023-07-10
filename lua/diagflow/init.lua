@@ -7,7 +7,7 @@ M.config = {
     max_width = 60,
     severity_colors = {
         error = "DiagnosticFloatingError",
-        warn = "DiagnosticFloatingWarning",
+        warn = "DiagnosticFloatingWarn",
         info = "DiagnosticFloatingInfo",
         hint = "DiagnosticFloatingHint",
     },
