@@ -21,6 +21,39 @@ end
 local group = nil
 local ns = nil
 
+local error = function (message)
+    vim.notify(message, vim.log.levels.ERROR)
+end
+
+M.cached = {}
+
+local function update_cached_diagnostic()
+    local ok, diagnostics = pcall(vim.diagnostic.get, 0)
+
+    if not ok then
+        error('Failed to get diagnostic: ' .. diagnostics)
+        return
+    end
+
+    if type(diagnostics) ~= "table" then
+        error('Diagnostic is not a table ' .. diagnostics)
+        return
+    end
+
+    ok, diagnostics = pcall(function()
+        table.sort(diagnostics, function(a, b) return a.severity < b.severity end)
+        return diagnostics
+    end)
+
+    if not ok then
+        error('Failed to sort diagnostics ' .. diagnostics)
+        return
+    end
+
+
+    M.cached = diagnostics
+end
+
 function M.init(config)
     vim.diagnostic.config({ virtual_text = false })
 
@@ -38,10 +71,7 @@ function M.init(config)
 
         local win_info = vim.fn.getwininfo(vim.fn.win_getid())[1]
 
-        local diags = vim.diagnostic.get(bufnr)
-
-        -- Sort diagnostics by severity
-        table.sort(diags, function(a, b) return a.severity < b.severity end)
+        local diags = M.cached
 
         -- Get the current position
         local cursor_pos = vim.api.nvim_win_get_cursor(0)
@@ -92,7 +122,13 @@ function M.init(config)
         pattern = "*",
         group = group
     })
+    vim.api.nvim_create_autocmd('DiagnosticChanged', {
+        callback = update_cached_diagnostic,
+        pattern = "*",
+        group = group
+    })
 
+    update_cached_diagnostic()
 end
 
 function M.clear()
