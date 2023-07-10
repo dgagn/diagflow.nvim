@@ -1,5 +1,19 @@
 local M = {}
 
+local function shallowcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in pairs(orig) do
+            copy[orig_key] = orig_value
+        end
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+
 local function wrap_text(text, max_width)
     local lines = {}
     local line = ""
@@ -25,20 +39,21 @@ function M.init(config)
     vim.diagnostic.config({ virtual_text = false })
 
     ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
+    local bufnr = 0 -- current buffer
+    local cached_diags = vim.diagnostic.get(0)
 
     local function render_diagnostics()
         if not config.enable then
             return
         end
 
-        local bufnr = 0 -- current buffer
-
         -- Clear existing extmarks
         vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
 
         local win_info = vim.fn.getwininfo(vim.fn.win_getid())[1]
 
-        local diags = vim.diagnostic.get(bufnr)
+        cached_diags = vim.diagnostic.get(bufnr)
+        local diags = shallowcopy(cached_diags)
 
         -- Sort diagnostics by severity
         table.sort(diags, function(a, b) return a.severity < b.severity end)
@@ -86,6 +101,7 @@ function M.init(config)
         end
     end
 
+    render_diagnostics()
     group = vim.api.nvim_create_augroup('RenderDiagnostics', { clear = true })
     vim.api.nvim_create_autocmd('DiagnosticChanged', {
         callback = render_diagnostics,
