@@ -50,7 +50,6 @@ local function update_cached_diagnostic()
         return
     end
 
-
     M.cached = diagnostics
 end
 
@@ -64,7 +63,14 @@ function M.init(config)
             return
         end
 
-        local bufnr = 0 -- current buffer
+        local bufnr = vim.api.nvim_get_current_buf() -- get current buffer
+
+        -- If the buffer with diagnostics doesn't match the current buffer, or if there are no diagnostics, clear diagnostics
+        if bufnr ~= 0 and (not M.cached[1] or M.cached[1].bufnr ~= bufnr) then
+            print(bufnr)
+            vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+            return
+        end
 
         -- Clear existing extmarks
         vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
@@ -140,7 +146,7 @@ function M.init(config)
     end
 
     group = vim.api.nvim_create_augroup('RenderDiagnostics', { clear = true })
-    vim.api.nvim_create_autocmd({ 'CursorMoved', 'BufEnter' }, {
+    vim.api.nvim_create_autocmd('CursorMoved', {
         callback = render_diagnostics,
         pattern = "*",
         group = group
