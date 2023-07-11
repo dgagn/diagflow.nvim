@@ -123,7 +123,7 @@ function M.init(config)
                     -- fixes the issue of neotree and nvim-tree weird not on screen when opened
                     vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.padding_top, 0, {
                         virt_text_pos = 'right_align',
-                        virt_text = { { message , hl_group } },
+                        virt_text = { { message, hl_group } },
                         virt_text_hide = true,
                         strict = false,
                     })

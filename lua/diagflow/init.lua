@@ -12,15 +12,15 @@ M.config = {
         hint = "DiagnosticFloatingHint",
     },
     gap_size = 1,
-    scope = 'cursor', -- 'cursor', 'line'
+    scope = 'cursor',  -- 'cursor', 'line'
     placement = 'top', -- top or inline
     padding_top = 0,
     padding_right = 0,
     inline_padding_left = 0, -- padding only for when the placement is inline
-    text_align = 'right', -- 'left', 'right'
+    text_align = 'right',    -- 'left', 'right'
 }
 
-local error = function (message)
+local error = function(message)
     vim.notify(message, vim.log.levels.ERROR)
 end
 
@@ -62,7 +62,8 @@ function M.setup(user_config)
         return
     end
     if type(config.inline_padding_left) ~= 'number' then
-        error('diagflow: Invalid type for "inline_padding_left" config. Expected number, got ' .. type(config.inline_padding_left))
+        error('diagflow: Invalid type for "inline_padding_left" config. Expected number, got ' ..
+        type(config.inline_padding_left))
         return
     end
     if type(config.text_align) ~= 'string' or (config.text_align ~= 'left' and config.text_align ~= 'right') then
