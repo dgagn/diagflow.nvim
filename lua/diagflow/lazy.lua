@@ -73,6 +73,11 @@ function M.init(config)
 
         local diags = M.cached
 
+        local diags_bufnrs = {}
+        for _, diag in ipairs(diags) do
+            diags_bufnrs[diag.bufnr] = true
+        end
+
         -- Get the current position
         local cursor_pos = vim.api.nvim_win_get_cursor(0)
         local line = cursor_pos[1] - 1 -- Subtract 1 to convert to 0-based indexing
@@ -110,13 +115,14 @@ function M.init(config)
             local is_right = config.text_align == 'right'
 
             for _, message in ipairs(message_lines) do
-                if is_right and config.padding_right == 0 then
+                if is_right then
                     -- fixes the issue of neotree and nvim-tree weird not on screen when opened
                     vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.padding_top, 0, {
                         virt_text_pos = 'right_align',
                         virt_text = { { message .. "          ", hl_group } },
                         virt_text_hide = true,
-                        strict = false
+                        strict = false,
+                        priority = 0
                     })
                 else
                     local align = config.text_align == 'left' and max_width or #message
@@ -139,7 +145,7 @@ function M.init(config)
     end
 
     group = vim.api.nvim_create_augroup('RenderDiagnostics', { clear = true })
-    vim.api.nvim_create_autocmd('CursorMoved', {
+    vim.api.nvim_create_autocmd({ 'CursorMoved', 'BufEnter' }, {
         callback = render_diagnostics,
         pattern = "*",
         group = group
