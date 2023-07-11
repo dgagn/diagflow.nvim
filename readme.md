@@ -16,6 +16,10 @@
 
 ![hint](./images/hint.png)
 
+4. It can also be inline instead of at the top
+
+
+
 ## Installation
 
 To install **diagflow.nvim**, use your preferred Neovim package manager. If you're using `packer.nvim`, add the following line to your plugin list:
@@ -56,6 +60,8 @@ require('diagflow').setup({
     padding_top = 0,
     padding_right = 0,
     text_align = 'right', -- 'left', 'right'
+    placement = 'top', -- 'top', 'inline'
+    inline_padding_left = 0, -- the padding left when the placement is inline
 })
 ```
 
