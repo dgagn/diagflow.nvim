@@ -75,7 +75,7 @@ You can set up custom colors by changing the highlight group in the configuratio
 
 2. Can I still have the diagnostics inline?
 
-Yes, with the new option placement, you can set the diagnostics inline instead of at
+Yes, with the new option `placement`, you can set the diagnostics inline instead of at
 the top right.
 
 Here is a example :
@@ -93,3 +93,4 @@ Here is the example config used in this screenshot :
   },
 }
 ```
+
