@@ -126,7 +126,6 @@ function M.init(config)
                         virt_text = { { message , hl_group } },
                         virt_text_hide = true,
                         strict = false,
-                        priority = 0
                     })
                 else
                     local align = config.text_align == 'left' and max_width or #message
