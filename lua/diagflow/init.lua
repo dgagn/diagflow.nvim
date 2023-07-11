@@ -13,7 +13,7 @@ M.config = {
     },
     gap_size = 1,
     scope = 'cursor', -- 'cursor', 'line'
-    placement = 'inline',
+    placement = 'top',
     padding_top = 0,
     padding_right = 0,
     text_align = 'right', -- 'left', 'right'
