@@ -110,9 +110,10 @@ function M.init(config)
             local is_right = config.text_align == 'right'
 
             for _, message in ipairs(message_lines) do
-                if is_right and config.padding_right == 0 then
+                if is_right then
+                    print('padding')
                     -- fixes the issue of neotree and nvim-tree weird not on screen when opened
-                    vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.padding_top, 0, {
+                    vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.padding_top, config.padding_right, {
                         virt_text_pos = 'right_align',
                         virt_text = { { message, hl_group } },
                         virt_text_hide = true,
