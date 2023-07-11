@@ -13,9 +13,10 @@ M.config = {
     },
     gap_size = 1,
     scope = 'cursor', -- 'cursor', 'line'
-    placement = 'top',
+    placement = 'top', -- top or inline
     padding_top = 0,
     padding_right = 0,
+    inline_padding_left = 0, -- padding only for when the placement is inline
     text_align = 'right', -- 'left', 'right'
 }
 
@@ -45,7 +46,11 @@ function M.setup(user_config)
         return
     end
     if type(config.scope) ~= 'string' or (config.scope ~= 'line' and config.scope ~= 'cursor') then
-        error('diagflow: Invalid value for "scope" config. Expected "line" or "cursor", got ' .. config.scope)
+        error('diagflow: invalid value for "scope" config. expected "line" or "cursor", got ' .. config.scope)
+        return
+    end
+    if type(config.placement) ~= 'string' or (config.scope ~= 'top' and config.scope ~= 'inline') then
+        error('diagflow: invalid value for "placement" config. expected "top" or "inline", got ' .. config.placement)
         return
     end
     if type(config.padding_top) ~= 'number' then
@@ -56,10 +61,15 @@ function M.setup(user_config)
         error('diagflow: Invalid type for "padding_right" config. Expected number, got ' .. type(config.padding_top))
         return
     end
+    if type(config.inline_padding_left) ~= 'number' then
+        error('diagflow: Invalid type for "inline_padding_left" config. Expected number, got ' .. type(config.inline_padding_left))
+        return
+    end
     if type(config.text_align) ~= 'string' or (config.text_align ~= 'left' and config.text_align ~= 'right') then
         error('diagflow: Invalid value for "text_align" config. Expected "left" or "right", got ' .. config.text_align)
         return
     end
+
 
     diagflowlazy.init(M.config)
 end

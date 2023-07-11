@@ -129,9 +129,10 @@ function M.init(config)
                         strict = false
                     })
                 elseif config.placement == 'inline' then
+                    local spacing = string.rep(" ", config.inline_padding_left)
                     vim.api.nvim_buf_set_extmark(bufnr, ns, diag.lnum, diag.col, {
                         virt_text_pos = 'eol',
-                        virt_text = { { '       ' .. message, hl_group } },
+                        virt_text = { { spacing .. message, hl_group } },
                         virt_text_hide = true,
                         strict = false
                     })
