@@ -73,11 +73,6 @@ function M.init(config)
 
         local diags = M.cached
 
-        local diags_bufnrs = {}
-        for _, diag in ipairs(diags) do
-            diags_bufnrs[diag.bufnr] = true
-        end
-
         -- Get the current position
         local cursor_pos = vim.api.nvim_win_get_cursor(0)
         local line = cursor_pos[1] - 1 -- Subtract 1 to convert to 0-based indexing
@@ -133,7 +128,7 @@ function M.init(config)
                         strict = false
                     })
                 elseif config.placement == 'inline' then
-                    vim.api.nvim_buf_set_extmark(bufnr, ns, line_offset + config.padding_top, 0, {
+                    vim.api.nvim_buf_set_extmark(bufnr, ns, diag.lnum, diag.col, {
                         virt_text_pos = 'inline',
                         virt_text = { { message, hl_group } },
                         virt_text_hide = true,
