@@ -131,7 +131,7 @@ function M.init(config)
                 elseif config.placement == 'inline' then
                     vim.api.nvim_buf_set_extmark(bufnr, ns, diag.lnum, diag.col, {
                         virt_text_pos = 'eol',
-                        virt_text = { { message, hl_group } },
+                        virt_text = { { '       ' .. message, hl_group } },
                         virt_text_hide = true,
                         strict = false
                     })
