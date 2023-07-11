@@ -16,10 +16,6 @@
 
 ![hint](./images/hint.png)
 
-4. It can also be inline instead of at the top
-
-
-
 ## Installation
 
 To install **diagflow.nvim**, use your preferred Neovim package manager. If you're using `packer.nvim`, add the following line to your plugin list:
@@ -77,3 +73,23 @@ require('diagflow').setup()
 
 You can set up custom colors by changing the highlight group in the configuration. For instance, in the default configuration, `:hi Hint` determines the color of the hints. You can change the hint color to blue with `:hi Hint guifg=blue`.
 
+2. Can I still have the diagnostics inline?
+
+Yes, with the new option placement, you can set the diagnostics inline instead of at
+the top right.
+
+Here is a example :
+
+![inline](./images/inline.png)
+
+Here is the example config used in this screenshot :
+
+```lua
+{
+  'dgagn/diagflow.nvim',
+  opts = {
+    placement = 'inline',
+    inline_padding_left = 3,
+  },
+}
+```
