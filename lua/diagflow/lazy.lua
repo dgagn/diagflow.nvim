@@ -108,15 +108,24 @@ function M.init(config)
             end
 
             local is_right = config.text_align == 'right'
+            local is_top = config.placement == 'top'
 
             for _, message in ipairs(message_lines) do
-                if is_right and config.padding_right == 0 then
+                if config.placement == 'inline' then
+                    local spacing = string.rep(" ", config.inline_padding_left)
+                    vim.api.nvim_buf_set_extmark(bufnr, ns, diag.lnum, diag.col, {
+                        virt_text_pos = 'eol',
+                        virt_text = { { spacing .. message, hl_group } },
+                        virt_text_hide = true,
+                        strict = false
+                    })
+                elseif is_top and is_right and config.padding_right == 0 then
                     -- fixes the issue of neotree and nvim-tree weird not on screen when opened
                     vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.padding_top, 0, {
                         virt_text_pos = 'right_align',
                         virt_text = { { message, hl_group } },
                         virt_text_hide = true,
-                        strict = false
+                        strict = false,
                     })
                 else
                     local align = config.text_align == 'left' and max_width or #message
