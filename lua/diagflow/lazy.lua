@@ -54,13 +54,16 @@ local function update_cached_diagnostic()
     M.cached = diagnostics
 end
 
+local enabled = true
+
+
 function M.init(config)
     vim.diagnostic.config({ virtual_text = false })
 
     ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
 
     local function render_diagnostics()
-        if not config.enable then
+        if not config.enable or not enabled then
             return
         end
 
@@ -146,10 +149,19 @@ function M.init(config)
             end
         end
     end
+    local function toggle()
+        enabled = not enabled
+        render_diagnostics()
+    end
 
     group = vim.api.nvim_create_augroup('RenderDiagnostics', { clear = true })
     vim.api.nvim_create_autocmd('CursorMoved', {
         callback = render_diagnostics,
+        pattern = "*",
+        group = group
+    })
+    vim.api.nvim_create_autocmd('InsertEnter', {
+        callback = toggle,
         pattern = "*",
         group = group
     })
