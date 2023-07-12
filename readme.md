@@ -94,3 +94,28 @@ Here is the example config used in this screenshot :
 }
 ```
 
+3. How can I disable the cursor when I enter insert mode and reenable it when I go in normal mode?
+
+```lua
+{
+  'dgagn/diagflow.nvim',
+  opts = {
+    toggle_event = { 'InsertEnter' },
+  },
+}
+```
+
+4. Something doesn't update when X or Y happens.
+
+You can setup when the diagnostic is cached with this option :
+
+```lua
+{
+  'dgagn/diagflow.nvim',
+  opts = {
+    update_event = { 'DiagnosticChanged', ... },
+  },
+}
+```
+
+
