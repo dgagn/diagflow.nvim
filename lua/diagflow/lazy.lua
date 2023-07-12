@@ -1,5 +1,11 @@
 local M = {}
 
+local function len(T)
+    local count = 0
+    for _ in pairs(T) do count = count + 1 end
+    return count
+end
+
 local function wrap_text(text, max_width)
     local lines = {}
     local line = ""
@@ -28,8 +34,6 @@ end
 M.cached = {}
 
 local function update_cached_diagnostic()
-    if M.config.enable then
-    end
     local ok, diagnostics = pcall(vim.diagnostic.get, 0)
 
     if not ok then
@@ -162,11 +166,15 @@ function M.init(config)
         pattern = "*",
         group = group
     })
-    vim.api.nvim_create_autocmd('InsertEnter', {
-        callback = toggle,
-        pattern = "*",
-        group = group
-    })
+
+    if len(config.toggle_event) > 0 then
+        print('create toggle event')
+        vim.api.nvim_create_autocmd(config.toggle_event, {
+            callback = toggle,
+            pattern = "*",
+            group = group
+        })
+    end
     vim.api.nvim_create_autocmd(config.update_event, {
         callback = update_cached_diagnostic,
         pattern = "*",
@@ -180,5 +188,6 @@ function M.clear()
     pcall(function() vim.api.nvim_del_augroup_by_name('RenderDiagnostics') end)
     pcall(function() vim.api.nvim_buf_clear_namespace(0, ns, 0, -1) end)
 end
+
 
 return M
