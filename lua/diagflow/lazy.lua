@@ -28,6 +28,8 @@ end
 M.cached = {}
 
 local function update_cached_diagnostic()
+    if M.config.enable then
+    end
     local ok, diagnostics = pcall(vim.diagnostic.get, 0)
 
     if not ok then
@@ -54,16 +56,16 @@ local function update_cached_diagnostic()
     M.cached = diagnostics
 end
 
-local enabled = true
 
 
 function M.init(config)
     vim.diagnostic.config({ virtual_text = false })
+    M.config = config
 
     ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
 
     local function render_diagnostics()
-        if not config.enable or not enabled then
+        if not M.config.enable then
             return
         end
 
@@ -150,8 +152,8 @@ function M.init(config)
         end
     end
     local function toggle()
-        enabled = not enabled
-        render_diagnostics()
+        M.config.enabled = not M.config.enabled
+        vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
     end
 
     group = vim.api.nvim_create_augroup('RenderDiagnostics', { clear = true })
