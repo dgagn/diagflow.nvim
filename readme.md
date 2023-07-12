@@ -58,6 +58,8 @@ require('diagflow').setup({
     text_align = 'right', -- 'left', 'right'
     placement = 'top', -- 'top', 'inline'
     inline_padding_left = 0, -- the padding left when the placement is inline
+    update_event = { 'DiagnosticChanged' }, -- the event that updates the diagnostics cache
+    toggle_event = { } -- if InsertEnter, can toggle the diagnostics on inserts
 })
 ```
 
