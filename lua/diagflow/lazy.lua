@@ -168,7 +168,6 @@ function M.init(config)
     })
 
     if len(config.toggle_event) > 0 then
-        print('create toggle event')
         vim.api.nvim_create_autocmd(config.toggle_event, {
             callback = toggle,
             pattern = "*",
