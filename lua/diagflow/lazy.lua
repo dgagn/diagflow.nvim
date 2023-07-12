@@ -153,7 +153,7 @@ function M.init(config)
         pattern = "*",
         group = group
     })
-    vim.api.nvim_create_autocmd('DiagnosticChanged', {
+    vim.api.nvim_create_autocmd(config.update_event, {
         callback = update_cached_diagnostic,
         pattern = "*",
         group = group
