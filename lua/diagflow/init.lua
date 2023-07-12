@@ -18,6 +18,7 @@ M.config = {
     padding_right = 0,
     inline_padding_left = 0, -- padding only for when the placement is inline
     text_align = 'right',    -- 'left', 'right'
+    update_event = { 'DiagnosticChanged' },
 }
 
 local error = function(message)
@@ -27,8 +28,11 @@ end
 function M.setup(user_config)
     M.config = vim.tbl_deep_extend('force', {}, M.config, user_config or {})
 
-    -- Validate configuration
     local config = M.config
+    if type(config.update_event) ~= 'table' then
+        error('diagflow: Invalid type for "update_event" config. Expected table, got ' .. type(config.enable))
+        return
+    end
     if type(config.enable) ~= 'boolean' then
         error('diagflow: Invalid type for "enable" config. Expected boolean, got ' .. type(config.enable))
         return
