@@ -1,5 +1,11 @@
 local M = {}
 
+local function len(T)
+    local count = 0
+    for _ in pairs(T) do count = count + 1 end
+    return count
+end
+
 local function wrap_text(text, max_width)
     local lines = {}
     local line = ""
@@ -54,13 +60,16 @@ local function update_cached_diagnostic()
     M.cached = diagnostics
 end
 
+
+
 function M.init(config)
     vim.diagnostic.config({ virtual_text = false })
+    M.config = config
 
     ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
 
     local function render_diagnostics()
-        if not config.enable then
+        if not M.config.enable then
             return
         end
 
@@ -146,6 +155,10 @@ function M.init(config)
             end
         end
     end
+    local function toggle()
+        M.config.enabled = not M.config.enabled
+        vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
+    end
 
     group = vim.api.nvim_create_augroup('RenderDiagnostics', { clear = true })
     vim.api.nvim_create_autocmd('CursorMoved', {
@@ -153,6 +166,14 @@ function M.init(config)
         pattern = "*",
         group = group
     })
+
+    if len(config.toggle_event) > 0 then
+        vim.api.nvim_create_autocmd(config.toggle_event, {
+            callback = toggle,
+            pattern = "*",
+            group = group
+        })
+    end
     vim.api.nvim_create_autocmd(config.update_event, {
         callback = update_cached_diagnostic,
         pattern = "*",
@@ -166,5 +187,6 @@ function M.clear()
     pcall(function() vim.api.nvim_del_augroup_by_name('RenderDiagnostics') end)
     pcall(function() vim.api.nvim_buf_clear_namespace(0, ns, 0, -1) end)
 end
+
 
 return M
