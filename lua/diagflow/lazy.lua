@@ -68,6 +68,25 @@ function M.init(config)
 
     ns = vim.api.nvim_create_namespace("DiagnosticsHighlight")
 
+    local signs = (function()
+      local signs = {}
+      local type_diagnostic = vim.diagnostic.severity
+      for _, severity in ipairs(type_diagnostic) do
+        local status, sign = pcall(function()
+          return vim.trim(
+            vim.fn.sign_getdefined(
+              "DiagnosticSign" .. severity:lower():gsub("^%l", string.upper)
+            )[1].text
+          )
+        end)
+        if not status then
+          sign = severity:sub(1, 1)
+        end
+        signs[severity] = sign
+      end
+      return signs
+    end)()
+
     local function render_diagnostics()
         if not M.config.enable then
             return
@@ -107,7 +126,8 @@ function M.init(config)
         -- Render current_pos_diags
         for _, diag in ipairs(current_pos_diags) do
             local hl_group = severity[diag.severity]
-            local message_lines = wrap_text(diag.message, config.max_width)
+            local sign = config.show_sign and signs[vim.diagnostic.severity[diag.severity]] .. " " or ""
+            local message_lines = wrap_text(sign .. diag.message, config.max_width)
 
             local max_width = 0
             if config.text_align == 'left' then
