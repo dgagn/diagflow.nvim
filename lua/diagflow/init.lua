@@ -11,6 +11,7 @@ M.config = {
         info = "DiagnosticFloatingInfo",
         hint = "DiagnosticFloatingHint",
     },
+    show_sign = false,
     gap_size = 1,
     scope = 'cursor',  -- 'cursor', 'line'
     placement = 'top', -- top or inline
