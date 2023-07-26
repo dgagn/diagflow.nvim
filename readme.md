@@ -31,6 +31,7 @@ If you're using `lazy.nvim`, add the following line to your plugin list:
 -- Lazy
 {
     'dgagn/diagflow.nvim',
+    -- event = 'LspAttach', This is what I use personnally and it works great
     opts = {}
 }
 ```
@@ -58,9 +59,10 @@ require('diagflow').setup({
     text_align = 'right', -- 'left', 'right'
     placement = 'top', -- 'top', 'inline'
     inline_padding_left = 0, -- the padding left when the placement is inline
-    update_event = { 'DiagnosticChanged' }, -- the event that updates the diagnostics cache
+    update_event = { 'DiagnosticChanged', 'BufReadPost' }, -- the event that updates the diagnostics cache
     toggle_event = { }, -- if InsertEnter, can toggle the diagnostics on inserts
     show_sign = false, -- set to true if you want to render the diagnostic sign before the diagnostic message
+    render_event = { 'DiagnosticChanged', 'CursorMoved' }
 })
 ```
 

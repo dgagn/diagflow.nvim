@@ -19,8 +19,9 @@ M.config = {
     padding_right = 0,
     inline_padding_left = 0, -- padding only for when the placement is inline
     text_align = 'right',    -- 'left', 'right'
-    update_event = { 'DiagnosticChanged' },
+    update_event = { 'DiagnosticChanged', 'BufReadPost' },
     toggle_event = { },
+    render_event = { 'CursorMoved', 'DiagnosticChanged' }
 }
 
 local error = function(message)
@@ -36,6 +37,10 @@ function M.setup(user_config)
         return
     end
     if type(config.toggle_event) ~= 'table' then
+        error('diagflow: Invalid type for "toggle_event" config. Expected table, got ' .. type(config.enable))
+        return
+    end
+    if type(config.render_event) ~= 'table' then
         error('diagflow: Invalid type for "toggle_event" config. Expected table, got ' .. type(config.enable))
         return
     end
