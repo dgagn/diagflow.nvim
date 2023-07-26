@@ -92,6 +92,10 @@ function M.init(config)
             return
         end
 
+        if vim.diagnostic.is_disabled() then
+            return
+        end
+
         local bufnr = 0 -- current buffer
 
         -- Clear existing extmarks
@@ -139,7 +143,12 @@ function M.init(config)
             local is_right = config.text_align == 'right'
             local is_top = config.placement == 'top'
 
+            local lines_added = 0
             for _, message in ipairs(message_lines) do
+                if lines_added > config.max_height then
+                    break
+                end
+                lines_added = lines_added + 1
                 if config.placement == 'inline' then
                     local spacing = string.rep(" ", config.inline_padding_left)
                     vim.api.nvim_buf_set_extmark(bufnr, ns, diag.lnum, diag.col, {
