@@ -53,6 +53,9 @@ require('diagflow').setup({
         info = "DiagnosticFloatingInfo",
         hint = "DiagnosticFloatingHint",
     },
+    format = function(diagnostic)
+      return diagnostic.message
+    end,
     gap_size = 1,
     scope = 'cursor', -- 'cursor', 'line' this changes the scope, so instead of showing errors under the cursor, it shows errors on the entire line.
     padding_top = 0,
@@ -124,4 +127,17 @@ You can setup when the diagnostic is cached with this option :
 }
 ```
 
+5. I want to customize my diagnostic messages
 
+You can set a diagnostic message by supplying the `format` option.
+
+```lua
+{
+  'dgagn/diagflow.nvim',
+  opts = {
+    format = function(diagnostic)
+      return '[LSP] ' .. diagnostic.message
+    end
+  },
+}
+```

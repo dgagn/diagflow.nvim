@@ -48,6 +48,10 @@ function M.setup(user_config)
         error('diagflow: Invalid type for "toggle_event" config. Expected table, got ' .. type(config.render_event))
         return
     end
+    if type(config.format) ~= 'function' then
+        error('diagflow: Invalid type for "format" config. Expected function, got ' .. type(config.format))
+        return
+    end
     if type(config.enable) ~= 'boolean' then
         error('diagflow: Invalid type for "enable" config. Expected boolean, got ' .. type(config.enable))
         return
