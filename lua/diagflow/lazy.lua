@@ -181,7 +181,7 @@ function M.init(config)
     end
 
     group = vim.api.nvim_create_augroup('RenderDiagnostics', { clear = true })
-    vim.api.nvim_create_autocmd('CursorMoved', {
+    vim.api.nvim_create_autocmd(config.render_event, {
         callback = render_diagnostics,
         pattern = "*",
         group = group
