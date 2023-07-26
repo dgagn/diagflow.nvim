@@ -145,7 +145,7 @@ function M.init(config)
 
             local lines_added = 0
             for _, message in ipairs(message_lines) do
-                if lines_added > config.max_height then
+                if lines_added >= config.max_height then
                     break
                 end
                 lines_added = lines_added + 1
