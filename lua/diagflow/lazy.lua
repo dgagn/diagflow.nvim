@@ -129,9 +129,11 @@ function M.init(config)
         local win_width = vim.api.nvim_win_get_width(0) - vim.fn.getwininfo()[1].textoff - config.padding_right
         -- Render current_pos_diags
         for _, diag in ipairs(current_pos_diags) do
+            local diag_message = config.format(diag)
+
             local hl_group = severity[diag.severity]
             local sign = config.show_sign and signs[vim.diagnostic.severity[diag.severity]] .. " " or ""
-            local message_lines = wrap_text(sign .. diag.message, config.max_width)
+            local message_lines = wrap_text(sign .. diag_message, config.max_width)
 
             local max_width = 0
             if config.text_align == 'left' then

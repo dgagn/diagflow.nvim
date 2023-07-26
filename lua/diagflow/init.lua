@@ -12,6 +12,9 @@ M.config = {
         info = "DiagnosticFloatingInfo",
         hint = "DiagnosticFloatingHint",
     },
+    format = function(diagnostic)
+        return diagnostic.message
+    end,
     show_sign = false,
     gap_size = 1,
     scope = 'cursor',  -- 'cursor', 'line'
