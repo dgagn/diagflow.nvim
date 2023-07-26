@@ -5,6 +5,7 @@ local diagflowlazy = require('diagflow.lazy')
 M.config = {
     enable = true,
     max_width = 60,
+    max_height = 10,
     severity_colors = {
         error = "DiagnosticFloatingError",
         warn = "DiagnosticFloatingWarn",
@@ -33,15 +34,15 @@ function M.setup(user_config)
 
     local config = M.config
     if type(config.update_event) ~= 'table' then
-        error('diagflow: Invalid type for "update_event" config. Expected table, got ' .. type(config.enable))
+        error('diagflow: Invalid type for "update_event" config. Expected table, got ' .. type(config.update_event))
         return
     end
     if type(config.toggle_event) ~= 'table' then
-        error('diagflow: Invalid type for "toggle_event" config. Expected table, got ' .. type(config.enable))
+        error('diagflow: Invalid type for "toggle_event" config. Expected table, got ' .. type(config.toggle_event))
         return
     end
     if type(config.render_event) ~= 'table' then
-        error('diagflow: Invalid type for "toggle_event" config. Expected table, got ' .. type(config.enable))
+        error('diagflow: Invalid type for "toggle_event" config. Expected table, got ' .. type(config.render_event))
         return
     end
     if type(config.enable) ~= 'boolean' then
@@ -50,6 +51,10 @@ function M.setup(user_config)
     end
     if type(config.max_width) ~= 'number' then
         error('diagflow: Invalid type for "max_width" config. Expected number, got ' .. type(config.max_width))
+        return
+    end
+    if type(config.max_height) ~= 'number' then
+        error('diagflow: Invalid type for "max_height" config. Expected number, got ' .. type(config.max_height))
         return
     end
     if type(config.severity_colors) ~= 'table' then
@@ -73,7 +78,7 @@ function M.setup(user_config)
         return
     end
     if type(config.padding_right) ~= 'number' then
-        error('diagflow: Invalid type for "padding_right" config. Expected number, got ' .. type(config.padding_top))
+        error('diagflow: Invalid type for "padding_right" config. Expected number, got ' .. type(config.padding_right))
         return
     end
     if type(config.inline_padding_left) ~= 'number' then
