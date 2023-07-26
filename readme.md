@@ -59,7 +59,7 @@ require('diagflow').setup({
     placement = 'top', -- 'top', 'inline'
     inline_padding_left = 0, -- the padding left when the placement is inline
     update_event = { 'DiagnosticChanged' }, -- the event that updates the diagnostics cache
-    toggle_event = { } -- if InsertEnter, can toggle the diagnostics on inserts
+    toggle_event = { }, -- if InsertEnter, can toggle the diagnostics on inserts
     show_sign = false, -- set to true if you want to render the diagnostic sign before the diagnostic message
 })
 ```
