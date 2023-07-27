@@ -36,8 +36,6 @@ M.cached = {}
 local function update_cached_diagnostic()
     local ok, diagnostics = pcall(vim.diagnostic.get, 0)
 
-    M.clear()
-
     if not ok then
         error('Failed to get diagnostic: ' .. diagnostics)
         return
@@ -220,5 +218,6 @@ function M.clear()
     pcall(function() vim.api.nvim_del_augroup_by_name('RenderDiagnostics') end)
     pcall(function() vim.api.nvim_buf_clear_namespace(0, ns, 0, -1) end)
 end
+
 
 return M
