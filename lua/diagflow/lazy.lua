@@ -92,9 +92,9 @@ function M.init(config)
             return
         end
 
-        -- if vim.diagnostic.is_disabled ~= nil and vim.diagnostic.is_disabled(0) then
-        --     return
-        -- end
+        if vim.diagnostic.is_disabled ~= nil and vim.diagnostic.is_disabled(0) then
+            return
+        end
 
 
         local bufnr = 0 -- current buffer
