@@ -52,8 +52,8 @@ function M.setup(user_config)
         error('diagflow: Invalid type for "format" config. Expected function, got ' .. type(config.format))
         return
     end
-    if type(config.enable) ~= 'boolean' then
-        error('diagflow: Invalid type for "enable" config. Expected boolean, got ' .. type(config.enable))
+    if type(config.enable) ~= 'boolean' and type(config.enable) ~= 'function' then
+        error('diagflow: Invalid type for "enable" config. Expected boolean or function, got ' .. type(config.enable))
         return
     end
     if type(config.max_width) ~= 'number' then
