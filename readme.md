@@ -6,15 +6,15 @@
 
 1. Opening a file with multiple diagnostics but no issues under the cursor:
 
-![nothing](./images/nothing.png)
+![nothing](https://github.com/dgagn/diagflow.nvim/assets/21992952/ecea3484-7418-491c-a59b-2aa933313530)
 
 2. An error under the cursor:
 
-![error](./images/error.png)
+![error](https://github.com/dgagn/diagflow.nvim/assets/21992952/b273537f-6600-41fb-a1a8-45a44b723af3)
 
 3. A hint under the cursor:
 
-![hint](./images/hint.png)
+![hint](https://github.com/dgagn/diagflow.nvim/assets/21992952/fb1a0bc3-acd7-4699-805e-1935dbcced41)
 
 ## Installation
 
@@ -89,7 +89,7 @@ the top right.
 
 Here is a example :
 
-![inline](./images/inline.png)
+![inline](https://github.com/dgagn/diagflow.nvim/assets/21992952/18943ad2-707d-4a10-b83e-e52460a6766a)
 
 Here is the example config used in this screenshot :
 
