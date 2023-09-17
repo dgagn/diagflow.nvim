@@ -89,7 +89,6 @@ function M.init(config)
 
     local function render_diagnostics()
         if type(M.config.enable) == "function" then
-            print("function")
             if not M.config.enable() then
                 return
             end
