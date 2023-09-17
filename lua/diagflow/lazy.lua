@@ -88,14 +88,17 @@ function M.init(config)
     end)()
 
     local function render_diagnostics()
-        if not M.config.enable then
+        if type(M.config.enable) == "function" then
+            if not M.config.enable() then
+                return
+            end
+        elseif not M.config.enable then
             return
         end
 
         if vim.diagnostic.is_disabled ~= nil and vim.diagnostic.is_disabled(0) then
             return
         end
-
 
         local bufnr = 0 -- current buffer
 

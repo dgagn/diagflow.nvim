@@ -141,3 +141,16 @@ You can set a diagnostic message by supplying the `format` option.
   },
 }
 ```
+
+6. How do I disable this for certain filetypes?
+
+```lua
+{
+  'dgagn/diagflow.nvim',
+  opts = {
+    enable = function()
+      return vim.bo.filetype ~= "lazy"
+    end,
+  },
+}
+```
