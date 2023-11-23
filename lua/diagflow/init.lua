@@ -25,7 +25,16 @@ M.config = {
     text_align = 'right',    -- 'left', 'right'
     update_event = { 'DiagnosticChanged', 'BufReadPost' },
     toggle_event = { },
-    render_event = { 'CursorMoved', 'DiagnosticChanged' }
+    render_event = { 'CursorMoved', 'DiagnosticChanged' },
+    border_chars = {
+        top_left = "┌",
+        top_right = "┐",
+        bottom_left = "└",
+        bottom_right = "┘",
+        horizontal = "─",
+        vertical = "│"
+    },
+    show_borders = false,
 }
 
 local error = function(message)
@@ -97,7 +106,14 @@ function M.setup(user_config)
         error('diagflow: Invalid value for "text_align" config. Expected "left" or "right", got ' .. config.text_align)
         return
     end
-
+    if type(config.show_borders) ~= 'boolean' then
+        error('diagflow: Invalid value for "show_borders" config. Expected true or false, got ' .. config.show_border)
+        return
+    end
+    if type(config.border_chars) ~= 'table' then
+        error('diagflow: Invalid type for "border_chars" config. Expected table, got ' .. type(config.border_chars))
+        return
+    end
 
     diagflowlazy.init(M.config)
 end

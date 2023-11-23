@@ -66,7 +66,16 @@ require('diagflow').setup({
     update_event = { 'DiagnosticChanged', 'BufReadPost' }, -- the event that updates the diagnostics cache
     toggle_event = { }, -- if InsertEnter, can toggle the diagnostics on inserts
     show_sign = false, -- set to true if you want to render the diagnostic sign before the diagnostic message
-    render_event = { 'DiagnosticChanged', 'CursorMoved' }
+    render_event = { 'DiagnosticChanged', 'CursorMoved' },
+    border_chars = {
+      top_left = "┌",
+      top_right = "┐",
+      bottom_left = "└",
+      bottom_right = "┘",
+      horizontal = "─",
+      vertical = "│"
+    },
+    show_borders = false,
 })
 ```
 
@@ -151,6 +160,17 @@ You can set a diagnostic message by supplying the `format` option.
     enable = function()
       return vim.bo.filetype ~= "lazy"
     end,
+  },
+}
+```
+
+7. How do I show borders?
+
+```lua
+{
+  'dgagn/diagflow.nvim',
+  opts = {
+    show_borders = true,
   },
 }
 ```
