@@ -162,7 +162,7 @@ function M.init(config)
             local hl_group = severity[diag.severity]
             local sign = config.show_sign and signs[vim.diagnostic.severity[diag.severity]] .. " " or ""
             local message_lines = wrap_text(sign .. diag_message, config.max_width)
-            message_lines = create_boxed_text(message_lines, config.show_border)
+            message_lines = create_boxed_text(message_lines, config.show_borders)
 
             local max_width = 0
             if config.text_align == 'left' then

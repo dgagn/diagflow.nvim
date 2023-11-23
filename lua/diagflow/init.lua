@@ -34,7 +34,7 @@ M.config = {
         horizontal = "─",
         vertical = "│"
     },
-    show_border = false,
+    show_borders = false,
 }
 
 local error = function(message)
@@ -106,8 +106,8 @@ function M.setup(user_config)
         error('diagflow: Invalid value for "text_align" config. Expected "left" or "right", got ' .. config.text_align)
         return
     end
-    if type(config.show_border) ~= 'boolean' then
-        error('diagflow: Invalid value for "show_border" config. Expected true or false, got ' .. config.show_border)
+    if type(config.show_borders) ~= 'boolean' then
+        error('diagflow: Invalid value for "show_borders" config. Expected true or false, got ' .. config.show_border)
         return
     end
     if type(config.border_chars) ~= 'table' then
