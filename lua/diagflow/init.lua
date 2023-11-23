@@ -105,10 +105,18 @@ end
 function M.toggle()
     M.config.enable = not M.config.enable
     if M.config.enable then
-        diagflowlazy.init(M.config)
+        M.enable()
     else
-        diagflowlazy.clear()
+        M.disable()
     end
+end
+
+function M.enable()
+    diagflowlazy.init(M.config)
+end
+
+function M.disable()
+    diagflowlazy.clear()
 end
 
 return M
