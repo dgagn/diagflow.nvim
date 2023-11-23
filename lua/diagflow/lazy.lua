@@ -1,15 +1,11 @@
 local M = {}
 
-local border_chars = {
-    top_left = "┌",
-    top_right = "┐",
-    bottom_left = "└",
-    bottom_right = "┘",
-    horizontal = "─",
-    vertical = "│"
-}
+local function create_boxed_text(text_lines, add_boxed_text)
+    if #text_lines == 0 or not add_boxed_text then
+        return text_lines
+    end
+    local border_chars = M.config.border_chars
 
-local function create_boxed_text(text_lines)
     local max_length = 0
     for _, line in ipairs(text_lines) do
         max_length = math.max(max_length, #line)
@@ -166,7 +162,7 @@ function M.init(config)
             local hl_group = severity[diag.severity]
             local sign = config.show_sign and signs[vim.diagnostic.severity[diag.severity]] .. " " or ""
             local message_lines = wrap_text(sign .. diag_message, config.max_width)
-            message_lines = create_boxed_text(message_lines, 1, "│")
+            message_lines = create_boxed_text(message_lines, config.show_border)
 
             local max_width = 0
             if config.text_align == 'left' then
