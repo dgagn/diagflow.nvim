@@ -1,5 +1,10 @@
 local M = {}
 
+local function pad_text(text, padding)
+    local padded_text = string.rep(" ", padding) .. text .. string.rep(" ", padding)
+    return padded_text
+end
+
 local function create_boxed_text(text_lines, padding, border_char)
     local top_bottom_border = border_char .. string.rep(border_char, #text_lines[1] - 2) .. border_char
     local boxed_lines = {top_bottom_border}
@@ -9,13 +14,6 @@ local function create_boxed_text(text_lines, padding, border_char)
     table.insert(boxed_lines, top_bottom_border)
     return boxed_lines
 end
-
-local function pad_text(text, padding)
-    local padded_text = string.rep(" ", padding) .. text .. string.rep(" ", padding)
-    return padded_text
-end
-
-
 
 local function len(T)
     local count = 0
