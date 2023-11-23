@@ -1,5 +1,22 @@
 local M = {}
 
+local function create_boxed_text(text_lines, padding, border_char)
+    local top_bottom_border = border_char .. string.rep(border_char, #text_lines[1] - 2) .. border_char
+    local boxed_lines = {top_bottom_border}
+    for _, line in ipairs(text_lines) do
+        table.insert(boxed_lines, border_char .. pad_text(line, padding) .. border_char)
+    end
+    table.insert(boxed_lines, top_bottom_border)
+    return boxed_lines
+end
+
+local function pad_text(text, padding)
+    local padded_text = string.rep(" ", padding) .. text .. string.rep(" ", padding)
+    return padded_text
+end
+
+
+
 local function len(T)
     local count = 0
     for _ in pairs(T) do count = count + 1 end
@@ -138,6 +155,7 @@ function M.init(config)
             local hl_group = severity[diag.severity]
             local sign = config.show_sign and signs[vim.diagnostic.severity[diag.severity]] .. " " or ""
             local message_lines = wrap_text(sign .. diag_message, config.max_width)
+            message_lines = create_boxed_text(message_lines, 1, "│")
 
             local max_width = 0
             if config.text_align == 'left' then
