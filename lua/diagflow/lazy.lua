@@ -1,17 +1,30 @@
 local M = {}
 
-local function pad_text(text, padding)
-    local padded_text = string.rep(" ", padding) .. text .. string.rep(" ", padding)
-    return padded_text
-end
+local border_chars = {
+    top_left = "┌",
+    top_right = "┐",
+    bottom_left = "└",
+    bottom_right = "┘",
+    horizontal = "─",
+    vertical = "│"
+}
 
-local function create_boxed_text(text_lines, padding, border_char)
-    local top_bottom_border = border_char .. string.rep(border_char, #text_lines[1] - 2) .. border_char
-    local boxed_lines = {top_bottom_border}
+local function create_boxed_text(text_lines)
+    local max_length = 0
     for _, line in ipairs(text_lines) do
-        table.insert(boxed_lines, border_char .. pad_text(line, padding) .. border_char)
+        max_length = math.max(max_length, #line)
     end
-    table.insert(boxed_lines, top_bottom_border)
+
+    local top_border = border_chars.top_left .. string.rep(border_chars.horizontal, max_length) .. border_chars.top_right
+    local bottom_border = border_chars.bottom_left .. string.rep(border_chars.horizontal, max_length) .. border_chars.bottom_right
+    local boxed_lines = {top_border}
+
+    for _, line in ipairs(text_lines) do
+        local padded_line = line .. string.rep(" ", max_length - #line)
+        table.insert(boxed_lines, border_chars.vertical .. padded_line .. border_chars.vertical)
+    end
+
+    table.insert(boxed_lines, bottom_border)
     return boxed_lines
 end
 
