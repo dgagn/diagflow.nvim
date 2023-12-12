@@ -216,7 +216,7 @@ function M.init(config)
         end
     end
     local function toggle()
-        M.config.enabled = not M.config.enabled
+        M.config.enable = not M.config.enable
         vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
     end
 
