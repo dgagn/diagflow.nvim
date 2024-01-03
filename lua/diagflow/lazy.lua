@@ -228,12 +228,6 @@ function M.init(config)
     end
 
     group = vim.api.nvim_create_augroup('RenderDiagnostics', { clear = true })
-    vim.api.nvim_create_autocmd(config.render_event, {
-        callback = render_diagnostics,
-        pattern = "*",
-        group = group
-    })
-
     if len(config.toggle_event) > 0 then
         vim.api.nvim_create_autocmd(config.toggle_event, {
             callback = toggle,
@@ -243,6 +237,12 @@ function M.init(config)
     end
     vim.api.nvim_create_autocmd(config.update_event, {
         callback = update_cached_diagnostic,
+        pattern = "*",
+        group = group
+    })
+
+    vim.api.nvim_create_autocmd(config.render_event, {
+        callback = render_diagnostics,
         pattern = "*",
         group = group
     })
