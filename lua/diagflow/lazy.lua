@@ -32,18 +32,25 @@ end
 
 local function wrap_text(text, max_width)
     local lines = {}
-    local line = ""
 
-    for word in text:gmatch("%S+") do
-        if #line + #word + 1 > max_width then
-            table.insert(lines, line)
-            line = word
-        else
-            line = line ~= "" and line .. " " .. word or word
+    for line in text:gmatch("([^\n]*)\n?") do
+        local wrapped_line = ""
+        for word in line:gmatch("%S+") do
+            if #wrapped_line + #word + 1 > max_width then
+                local trimmed_line = vim.trim(wrapped_line)
+                if trimmed_line ~= "" then
+                    table.insert(lines, trimmed_line)
+                end
+                wrapped_line = word
+            else
+                wrapped_line = wrapped_line ~= "" and wrapped_line .. " " .. word or word
+            end
+        end
+        local trimmed_line = vim.trim(wrapped_line)
+        if trimmed_line ~= "" then
+            table.insert(lines, trimmed_line)
         end
     end
-
-    table.insert(lines, line)
 
     return lines
 end
@@ -221,12 +228,6 @@ function M.init(config)
     end
 
     group = vim.api.nvim_create_augroup('RenderDiagnostics', { clear = true })
-    vim.api.nvim_create_autocmd(config.render_event, {
-        callback = render_diagnostics,
-        pattern = "*",
-        group = group
-    })
-
     if len(config.toggle_event) > 0 then
         vim.api.nvim_create_autocmd(config.toggle_event, {
             callback = toggle,
@@ -236,6 +237,12 @@ function M.init(config)
     end
     vim.api.nvim_create_autocmd(config.update_event, {
         callback = update_cached_diagnostic,
+        pattern = "*",
+        group = group
+    })
+
+    vim.api.nvim_create_autocmd(config.render_event, {
+        callback = render_diagnostics,
         pattern = "*",
         group = group
     })
