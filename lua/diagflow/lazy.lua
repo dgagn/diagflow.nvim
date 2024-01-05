@@ -8,7 +8,8 @@ local function create_boxed_text(text_lines, add_boxed_text)
 
     local max_length = 0
     for _, line in ipairs(text_lines) do
-        max_length = math.max(max_length, #line)
+        local line_length = vim.api.nvim_strwidth(line)
+        max_length = math.max(max_length, line_length)
     end
 
     local top_border = border_chars.top_left .. string.rep(border_chars.horizontal, max_length) .. border_chars.top_right
@@ -16,7 +17,8 @@ local function create_boxed_text(text_lines, add_boxed_text)
     local boxed_lines = {top_border}
 
     for _, line in ipairs(text_lines) do
-        local padded_line = line .. string.rep(" ", max_length - #line)
+        local line_length = vim.api.nvim_strwidth(line)
+        local padded_line = line .. string.rep(" ", max_length - line_length)
         table.insert(boxed_lines, border_chars.vertical .. padded_line .. border_chars.vertical)
     end
 
@@ -33,9 +35,11 @@ end
 local function wrap_text(text, max_width)
     local lines = {}
     local line = ""
+    local line_length = vim.api.nvim_strwidth(line)
 
     for word in text:gmatch("%S+") do
-        if #line + #word + 1 > max_width then
+        local word_length = vim.api.nvim_strwidth(word)
+        if line_length + word_length + 1 > max_width then
             table.insert(lines, line)
             line = word
         else
