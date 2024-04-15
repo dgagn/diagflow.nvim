@@ -161,7 +161,7 @@ function M.init(config)
         }
 
         local line_offset = 0
-        local win_width = vim.api.nvim_win_get_width(0) - vim.fn.getwininfo()[1].textoff - config.padding_right
+        local win_width = win_info.width - win_info.textoff - config.padding_right
         -- Render current_pos_diags
         for _, diag in ipairs(current_pos_diags) do
             local diag_message = config.format(diag)
