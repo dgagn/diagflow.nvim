@@ -127,7 +127,15 @@ function M.init(config)
             return
         end
 
-        if vim.diagnostic.is_disabled ~= nil and vim.diagnostic.is_disabled(0) then
+        local is_diagnostics_disabled = false
+
+		if vim.fn.has("nvim-0.11") == 1 then
+			is_diagnostics_disabled = vim.diagnostic.is_enabled ~= nil and not vim.diagnostic.is_enabled()
+		else
+			is_diagnostics_disabled = vim.diagnostic.is_disabled ~= nil and vim.diagnostic.is_disabled(0)
+		end
+
+        if is_diagnostics_disabled then
             return
         end
 
