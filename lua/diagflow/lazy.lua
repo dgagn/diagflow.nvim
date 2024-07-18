@@ -65,7 +65,8 @@ end
 M.cached = {}
 
 local function update_cached_diagnostic()
-    local ok, diagnostics = pcall(vim.diagnostic.get, 0)
+	local bufnr = vim.api.nvim_get_current_buf()
+    local ok, diagnostics = pcall(vim.diagnostic.get, bufnr)
 
     if not ok then
         error('Failed to get diagnostic: ' .. diagnostics)
@@ -88,7 +89,7 @@ local function update_cached_diagnostic()
     end
 
 
-    M.cached = diagnostics
+    M.cached[bufnr] = diagnostics
 end
 
 
@@ -146,7 +147,7 @@ function M.init(config)
 
         local win_info = vim.fn.getwininfo(vim.fn.win_getid())[1]
 
-        local diags = M.cached
+        local diags = M.cached[vim.api.nvim_get_current_buf()] or {}
 
         -- Get the current position
         local cursor_pos = vim.api.nvim_win_get_cursor(0)
@@ -155,12 +156,10 @@ function M.init(config)
 
         local current_pos_diags = {}
         for _, diag in ipairs(diags) do
-            if win_info.bufnr ==  diag.bufnr then
                 if config.scope == 'line' and diag.lnum == line or
                     config.scope == 'cursor' and diag.lnum == line and diag.col <= col and (diag.end_col or diag.col) >= col then
                     table.insert(current_pos_diags, diag)
                 end
-            end
         end
 
         local severity = {
@@ -256,6 +255,11 @@ function M.init(config)
         pattern = "*",
         group = group
     })
+
+	vim.api.nvim_create_autocmd('BufDelete', {
+		group = group,
+		callback = function(ev) M.cached[ev.buf] = nil end,
+	})
 
     update_cached_diagnostic()
 end
