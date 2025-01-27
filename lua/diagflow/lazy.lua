@@ -191,16 +191,19 @@ function M.init(config)
             local is_top = config.placement == 'top'
 
             local lines_added = 0
-            for _, message in ipairs(message_lines) do
+            for idx, message in ipairs(message_lines) do
                 if lines_added >= config.max_height then
                     break
                 end
                 lines_added = lines_added + 1
                 if config.placement == 'inline' then
+                    -- output message lines starting from the last one
+                    local last_line = math.min(config.max_height, #message_lines)
+                    local text = message_lines[last_line - idx + 1]
                     local spacing = string.rep(" ", config.inline_padding_left)
                     vim.api.nvim_buf_set_extmark(bufnr, ns, diag.lnum, diag.col, {
                         virt_text_pos = 'eol',
-                        virt_text = { { spacing .. message, hl_group } },
+                        virt_text = { { spacing .. text, hl_group } },
                         virt_text_hide = true,
                         strict = false
                     })
