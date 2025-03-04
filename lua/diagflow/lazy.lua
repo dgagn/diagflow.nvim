@@ -1,5 +1,7 @@
 local M = {}
 
+local strlen = vim.fn.strdisplaywidth
+
 local function create_boxed_text(text_lines, add_boxed_text)
     if #text_lines == 0 or not add_boxed_text then
         return text_lines
@@ -8,7 +10,7 @@ local function create_boxed_text(text_lines, add_boxed_text)
 
     local max_length = 0
     for _, line in ipairs(text_lines) do
-        max_length = math.max(max_length, #line)
+        max_length = math.max(max_length, strlen(line))
     end
 
     local top_border = border_chars.top_left .. string.rep(border_chars.horizontal, max_length) .. border_chars.top_right
@@ -16,7 +18,7 @@ local function create_boxed_text(text_lines, add_boxed_text)
     local boxed_lines = {top_border}
 
     for _, line in ipairs(text_lines) do
-        local padded_line = line .. string.rep(" ", max_length - #line)
+        local padded_line = line .. string.rep(" ", max_length - strlen(line))
         table.insert(boxed_lines, border_chars.vertical .. padded_line .. border_chars.vertical)
     end
 
@@ -36,7 +38,7 @@ local function wrap_text(text, max_width)
     for line in text:gmatch("([^\n]*)\n?") do
         local wrapped_line = ""
         for word in line:gmatch("%S+") do
-            if #wrapped_line + #word + 1 > max_width then
+            if strlen(wrapped_line) + strlen(word) + 1 > max_width then
                 local trimmed_line = vim.trim(wrapped_line)
                 if trimmed_line ~= "" then
                     table.insert(lines, trimmed_line)
@@ -183,7 +185,7 @@ function M.init(config)
             local max_width = 0
             if config.text_align == 'left' then
                 for _, message in ipairs(message_lines) do
-                    max_width = math.max(max_width, #message)
+                    max_width = math.max(max_width, strlen(message))
                 end
             end
 
@@ -216,7 +218,7 @@ function M.init(config)
                         strict = false,
                     })
                 else
-                    local align = config.text_align == 'left' and max_width or #message
+                    local align = config.text_align == 'left' and max_width or strlen(message)
                     vim.api.nvim_buf_set_extmark(bufnr, ns, win_info.topline + line_offset + config.padding_top, 0, {
                         virt_text_win_col = win_width - align,
                         virt_text = { { message, hl_group } },
